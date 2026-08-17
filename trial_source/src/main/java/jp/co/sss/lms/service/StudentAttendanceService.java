@@ -333,5 +333,25 @@ public class StudentAttendanceService {
 		// 完了メッセージ
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
+	
+	/*
+	 * 過去日の未入力チェック
+	 */
+	public Boolean notEnterCheck() throws ParseException {
+		
+		Date today = new Date();
+		
+		Integer count = tStudentAttendanceMapper.notEnterCount(
+				loginUserDto.getLmsUserId(),
+				Constants.DB_FLG_FALSE,
+				today);
+		
+		if (count > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 }
