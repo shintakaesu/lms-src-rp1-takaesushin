@@ -339,7 +339,11 @@ public class StudentAttendanceService {
 	 */
 	public Boolean notEnterCheck() throws ParseException {
 		
-		Date today = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		Date today = sdf.parse(sdf.format(new Date()));
+		
+		//今日の日付の取得
+		Date today = dateUtil.getDateWithoutTime(new Date());
 		
 		Integer count = tStudentAttendanceMapper.notEnterCount(
 				loginUserDto.getLmsUserId(),
