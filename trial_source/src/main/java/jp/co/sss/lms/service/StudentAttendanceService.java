@@ -3,6 +3,7 @@ package jp.co.sss.lms.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -219,6 +220,22 @@ public class StudentAttendanceService {
 		attendanceForm.setUserName(loginUserDto.getUserName());
 		attendanceForm.setLeaveFlg(loginUserDto.getLeaveFlg());
 		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+		
+		LinkedHashMap<Integer, String> hours = new LinkedHashMap<>();
+
+		for (int i = 0; i < 24; i++) {
+		    hours.put(i, String.format("%02d", i));
+		}
+
+		attendanceForm.setHours(hours);
+		
+		LinkedHashMap<Integer, String> minutes = new LinkedHashMap<>();
+
+		for (int i = 0; i < 60; i++) {
+		    minutes.put(i, String.format("%02d", i));
+		}
+
+		attendanceForm.setMinutes(minutes);
 
 		// 途中退校している場合のみ設定
 		if (loginUserDto.getLeaveDate() != null) {
@@ -238,6 +255,32 @@ public class StudentAttendanceService {
 			dailyAttendanceForm
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
+			
+			//出勤
+			String startTime =
+			        attendanceManagementDto.getTrainingStartTime();
+
+			if (startTime != null && !"".equals(startTime)) {
+
+			    dailyAttendanceForm.setTrainingStartTimeHour(
+			            startTime.substring(0, 2));
+
+			    dailyAttendanceForm.setTrainingStartTimeMinute(
+			            startTime.substring(3, 5));
+			}
+			
+			//退勤
+			String endTime =
+			        attendanceManagementDto.getTrainingEndTime();
+
+			if (endTime != null && !"".equals(endTime)) {
+
+			    dailyAttendanceForm.setTrainingEndTimeHour(
+			            endTime.substring(0, 2));
+
+			    dailyAttendanceForm.setTrainingEndTimeMinute(
+			            endTime.substring(3, 5));
+			}
 			if (attendanceManagementDto.getBlankTime() != null) {
 				dailyAttendanceForm.setBlankTime(attendanceManagementDto.getBlankTime());
 				dailyAttendanceForm.setBlankTimeValue(String.valueOf(
