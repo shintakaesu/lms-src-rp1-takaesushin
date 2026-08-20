@@ -308,6 +308,8 @@ public class StudentAttendanceService {
 	 * @throws ParseException
 	 */
 	public String update(AttendanceForm attendanceForm) throws ParseException {
+		
+		formatConversion(attendanceForm);
 
 		Integer lmsUserId = loginUserUtil.isStudent() ? loginUserDto.getLmsUserId()
 				: attendanceForm.getLmsUserId();
@@ -400,5 +402,38 @@ public class StudentAttendanceService {
 		return false;
 	}
 	
+	
+	public void formatConversion(AttendanceForm attendanceForm) {
+
+	    for (DailyAttendanceForm dailyAttendanceForm
+	            : attendanceForm.getAttendanceList()) {
+
+	        if (dailyAttendanceForm.getTrainingStartTimeHour() != null
+	                && dailyAttendanceForm.getTrainingStartTimeMinute() != null
+	                && !"".equals(dailyAttendanceForm.getTrainingStartTimeHour())
+	                && !"".equals(dailyAttendanceForm.getTrainingStartTimeMinute())) {
+
+	            dailyAttendanceForm.setTrainingStartTime(
+	                    String.format("%02d:%02d",
+	                            Integer.parseInt(
+	                                    dailyAttendanceForm.getTrainingStartTimeHour()),
+	                            Integer.parseInt(
+	                                    dailyAttendanceForm.getTrainingStartTimeMinute())));
+	        }
+
+	        if (dailyAttendanceForm.getTrainingEndTimeHour() != null
+	                && dailyAttendanceForm.getTrainingEndTimeMinute() != null
+	                && !"".equals(dailyAttendanceForm.getTrainingEndTimeHour())
+	                && !"".equals(dailyAttendanceForm.getTrainingEndTimeMinute())) {
+
+	            dailyAttendanceForm.setTrainingEndTime(
+	                    String.format("%02d:%02d",
+	                            Integer.parseInt(
+	                                    dailyAttendanceForm.getTrainingEndTimeHour()),
+	                            Integer.parseInt(
+	                                    dailyAttendanceForm.getTrainingEndTimeMinute())));
+	        }
+	    }
+	}
 
 }
