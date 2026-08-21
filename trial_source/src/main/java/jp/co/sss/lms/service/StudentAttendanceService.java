@@ -222,7 +222,9 @@ public class StudentAttendanceService {
 		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
 		
 		LinkedHashMap<Integer, String> hours = new LinkedHashMap<>();
-
+		
+//		hours.put(-1, "");
+		
 		for (int i = 0; i < 24; i++) {
 		    hours.put(i, String.format("%02d", i));
 		}
@@ -230,7 +232,9 @@ public class StudentAttendanceService {
 		attendanceForm.setHours(hours);
 		
 		LinkedHashMap<Integer, String> minutes = new LinkedHashMap<>();
-
+		
+//		minutes.put(-1, "");
+		
 		for (int i = 0; i < 60; i++) {
 		    minutes.put(i, String.format("%02d", i));
 		}
