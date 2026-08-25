@@ -383,7 +383,7 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 	
-	/*
+	/**
 	 * 過去日の未入力チェック
 	 */
 	public Boolean notEnterCheck() throws ParseException {

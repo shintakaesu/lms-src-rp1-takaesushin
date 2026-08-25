@@ -51,7 +51,8 @@
 		t1.delete_flg = #{deleteFlg}
 		ORDER BY t2.date ASC
 	</select>
-
+	
+	
 	<select id="notEnterCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM t_student_attendance
