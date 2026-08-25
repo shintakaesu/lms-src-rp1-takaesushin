@@ -385,11 +385,10 @@ public class StudentAttendanceService {
 	
 	/**
 	 * 過去日の未入力チェック
+	 * @author高江洲 - Task.25
+	 * @return 未入力の有無
 	 */
 	public Boolean notEnterCheck() throws ParseException {
-		
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		Date today = sdf.parse(sdf.format(new Date()));
 		
 		//今日の日付の取得
 		Date today = dateUtil.getDateWithoutTime(new Date());
