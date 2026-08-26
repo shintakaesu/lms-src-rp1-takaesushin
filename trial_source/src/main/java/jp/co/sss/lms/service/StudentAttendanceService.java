@@ -223,7 +223,7 @@ public class StudentAttendanceService {
 		
 		LinkedHashMap<Integer, String> hours = new LinkedHashMap<>();
 		
-//		hours.put(-1, "");
+		hours.put(-1, "");
 		
 		for (int i = 0; i < 24; i++) {
 		    hours.put(i, String.format("%02d", i));
@@ -233,7 +233,7 @@ public class StudentAttendanceService {
 		
 		LinkedHashMap<Integer, String> minutes = new LinkedHashMap<>();
 		
-//		minutes.put(-1, "");
+		minutes.put(-1, "");
 		
 		for (int i = 0; i < 60; i++) {
 		    minutes.put(i, String.format("%02d", i));
@@ -391,7 +391,11 @@ public class StudentAttendanceService {
 	public Boolean notEnterCheck() throws ParseException {
 		
 		//今日の日付の取得
-		Date today = dateUtil.getDateWithoutTime(new Date());
+//		Date today = dateUtil.getDateWithoutTime(new Date());
+		Date today = new Date();
+		String todaystr = dateUtil.toString(today);
+		
+		today = dateUtil.parse(todaystr);
 		
 		Integer count = tStudentAttendanceMapper.notEnterCount(
 				loginUserDto.getLmsUserId(),

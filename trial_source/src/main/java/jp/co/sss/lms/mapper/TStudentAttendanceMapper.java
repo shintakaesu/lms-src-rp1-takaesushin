@@ -65,8 +65,14 @@ public interface TStudentAttendanceMapper {
 	 */
 	Boolean update(TStudentAttendance tStudentAttendance);
 	
-	/*
+	
+	/**
 	 * 過去日未入力チェック
+	 * @author 高江洲 - Task25
+	 * @param lmsUserId
+	 * @param deleteFlg
+	 * @param today
+	 * @return 未入力件数
 	 */
 	Integer notEnterCount(
 		    @Param("lmsUserId") Integer lmsUserId,

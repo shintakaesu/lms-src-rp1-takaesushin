@@ -47,6 +47,7 @@ public class AttendanceController {
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 		
+		//高江洲 - Task25
 		//未入力チェック
 		Boolean notEnterFlg = studentAttendanceService.notEnterCheck();
 		model.addAttribute("notEnterFlg", notEnterFlg);
