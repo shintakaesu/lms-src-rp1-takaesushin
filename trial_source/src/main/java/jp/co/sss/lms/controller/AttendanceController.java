@@ -1,6 +1,7 @@
 package jp.co.sss.lms.controller;
 
 import java.text.ParseException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
 import jp.co.sss.lms.form.AttendanceForm;
 import jp.co.sss.lms.service.StudentAttendanceService;
+import jp.co.sss.lms.util.AttendanceUtil;
 import jp.co.sss.lms.util.Constants;
 
 /**
@@ -29,6 +31,8 @@ public class AttendanceController {
 	private StudentAttendanceService studentAttendanceService;
 	@Autowired
 	private LoginUserDto loginUserDto;
+	@Autowired
+	private AttendanceUtil attendanceUtil;
 
 	/**
 	 * 勤怠管理画面 初期表示
@@ -46,7 +50,7 @@ public class AttendanceController {
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
-		
+
 		//高江洲 - Task25
 		//未入力チェック
 		Boolean notEnterFlg = studentAttendanceService.notEnterCheck();
@@ -135,13 +139,42 @@ public class AttendanceController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
-	public String complete(AttendanceForm attendanceForm, Model model, BindingResult result)
+	public String complete(AttendanceForm attendanceForm, BindingResult result, Model model)
 			throws ParseException {
 		
 		studentAttendanceService.updateInputCheck(attendanceForm, result);
 		
 		if (result.hasErrors()) {
 			
+			System.out.println(result.getAllErrors());
+			model.addAttribute("errors", result.getAllErrors());
+
+		    attendanceForm.setBlankTimes(
+		            attendanceUtil.setBlankTime());
+
+		    LinkedHashMap<Integer, String> hours = new LinkedHashMap<>();
+
+		    hours.put(-1, "");
+
+		    for (int i = 0; i < 24; i++) {
+		        hours.put(i, String.format("%02d", i));
+		    }
+
+		    attendanceForm.setHours(hours);
+
+		    LinkedHashMap<Integer, String> minutes = new LinkedHashMap<>();
+
+		    minutes.put(-1, "");
+
+		    for (int i = 0; i < 60; i++) {
+		        minutes.put(i, String.format("%02d", i));
+		    }
+
+		    attendanceForm.setMinutes(minutes);
+
+		    model.addAttribute("attendanceForm", attendanceForm);
+
+		    return "attendance/update";
 		}
 		
 		// 更新
